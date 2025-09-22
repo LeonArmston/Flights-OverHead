@@ -1,0 +1,21 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure Flights OverHead",
+        "description": "Set up your location and search distance for flight tracking",
+        "data": {
+          "latitude": "Latitude",
+          "longitude": "Longitude", 
+          "distance_metres": "Search radius (metres)"
+        }
+      }
+    },
+    "error": {
+      "unknown": "Unexpected error occurred"
+    },
+    "abort": {
+      "already_configured": "This integration is already configured"
+    }
+  }
+}

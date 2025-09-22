@@ -1,0 +1,59 @@
+# Example Home Assistant configuration.yaml entries
+
+# This integration is configured via the UI (Configuration -> Integrations)
+# No manual configuration.yaml entries are required.
+
+# However, here are some example automations and dashboard cards:
+
+# Example automation to notify when flights are detected
+automation:
+  - alias: "Notify when flights overhead"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.flights_overhead_count
+        above: 0
+    action:
+      - service: notify.mobile_app_your_phone
+        data:
+          message: >
+            {{ states('sensor.flights_overhead_count') }} flights overhead! 
+            Closest: {{ state_attr('sensor.flights_overhead_details', 'closest_flight_callsign') }}
+            at {{ state_attr('sensor.flights_overhead_details', 'closest_flight_distance_m') }}m
+
+# Example Lovelace card for dashboard
+# Add this to your Lovelace dashboard YAML or create via UI
+type: entities
+title: Flights Overhead
+entities:
+  - entity: sensor.flights_overhead_count
+    name: Active Flights
+    icon: mdi:airplane
+  - type: attribute
+    entity: sensor.flights_overhead_details
+    attribute: closest_flight_callsign
+    name: Closest Flight
+  - type: attribute  
+    entity: sensor.flights_overhead_details
+    attribute: closest_flight_distance_m
+    name: Distance
+    suffix: " m"
+  - type: attribute
+    entity: sensor.flights_overhead_details
+    attribute: closest_flight_altitude
+    name: Altitude
+    suffix: " ft"
+
+# Advanced card showing all flights
+type: markdown
+title: Flight Details
+content: >
+  {% set flights = state_attr('sensor.flights_overhead_details', 'flights') %}
+  {% if flights %}
+    **{{ state_attr('sensor.flights_overhead_details', 'flight_count') }} flights detected**
+    
+    {% for flight in flights[:5] %}
+    - **{{ flight.callsign }}**: {{ flight.distance_m|round(0) }}m away, {{ flight.altitude }}ft
+    {% endfor %}
+  {% else %}
+    No flights detected in range
+  {% endif %}
