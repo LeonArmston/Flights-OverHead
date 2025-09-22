@@ -1,0 +1,13 @@
+{
+  "domain": "flights_overhead",
+  "name": "Flights OverHead",
+  "codeowners": ["@LeonArmston"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/LeonArmston/Flights-OverHead",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/LeonArmston/Flights-OverHead/issues",
+  "requirements": ["requests>=2.25.1"],
+  "version": "1.0.0"
+}
